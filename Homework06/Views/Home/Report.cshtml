@@ -1,0 +1,139 @@
+﻿
+<h2>Mountain Bikes Report</h2>
+
+<div class="mb-5 mt-5">
+    <div>
+        <canvas id="chart" width="1000" height="400"></canvas>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        $(document).ready(() => {
+            $.get({
+                url: "@Url.Action("GetReports", "Home")",
+                method: "GET",
+                success: (data, status) => {
+                   // console.log(data);
+                   // console.log(status);
+
+
+                    let inData = JSON.parse(data);
+                    console.log(inData[500]);
+
+                    let chartLabel = [];
+                    let chartData = [];
+                    var totalMonth = 0;
+                    var jan = 0, feb = 0, march = 0, april = 0, may = 0, jun = 0, july = 0, august = 0, sep = 0, oct = 0, nov = 0, dec = 0
+
+                    for (var i = 0; i < inData.length; i++) {
+                        if (inData[i].month == 1 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                jan = jan +  parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[0] = jan;
+                        }
+                        if (inData[i].month == 2 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                feb = feb + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[1] = feb;
+                        }
+                        if (inData[i].month == 3 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                march = march + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[2] = march;
+                        }
+                        if (inData[i].month == 4 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                april = april + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[3] = april;
+                        }
+                        if (inData[i].month == 5 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                may = may + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[4] = may;
+                        }
+                        if (inData[i].month == 6 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                jun = jun + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[5] = jun;
+                        }
+                        if (inData[i].month == 7 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                july = july + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[6] = july;
+                        }
+                        if (inData[i].month == 8 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                august = august + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[7] = august;
+                        }
+                        if (inData[i].month == 9 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                sep = sep + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[8] = sep;
+                        }
+
+                        if (inData[i].month == 10 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                oct = oct + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[9] = oct;
+                        }
+
+                        if (inData[i].month == 11 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                nov = nov + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[10] = nov;
+                        }
+
+                        if (inData[i].month == 12 && inData[i].bike.length != 0) {
+                            for (var y = 0; y < inData[i].bike.length; y++) {
+                                dec = dec + parseInt(inData[i].bike[y].quantity)
+                            }
+                            chartData[11] = dec;
+                        }
+
+                    }
+
+
+
+                    $(inData).each((i, v) => {
+                        chartLabel.push(v.Name);
+                        chartData.push(v.Amount);
+                    });
+
+                    chartLabel = ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                    RenderChart(chartLabel, chartData);
+                }
+            });
+            function RenderChart(labels, data) {
+                let ctx = $("#chart");
+                let chart = new Chart(ctx, {
+                    type: 'bar',
+
+                    data: {
+                        labels: labels ,
+                        datasets: [{
+                            label: 'Number of Mountain Bikes Sold',
+                            data: data,
+                            backgroundColor: ["red", "blue", "green", "blue", "red", "blue"],
+                        }]
+
+                    }
+                });
+            }
+        });
+    </script>
+}

@@ -1,0 +1,61 @@
+﻿@using Homework06.Models
+@model  List<Homework06.Models.order>
+<h2>Orders</h2>
+@using (Html.BeginForm("SearchOrders", "Home", FormMethod.Post))
+{
+    <form>
+        <div class="row">
+            <div class="col-lg-3">
+                <input type="date" name="date" class="form-control" />
+            </div>
+            <div class="col-1">
+                <input type="submit" value="Search" class="form-control btn btn-info" />
+            </div>
+        </div>
+    </form>
+}
+
+
+
+@for (int i = 0; i < Model.Count(); i++)
+{
+    if (Model.Where(p => p.orderid == i).Count() > 0)
+    {
+        < h1 > Order @Model.Where(p => p.//
+
+           orderid == i).FirstOrDefault().orderid - @Model.Where(p => p.orderid == i).FirstOrDefault().orderdate.Date.ToShortDateString() </ h1 >
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th width="500">Product Name</th>
+                    <th width="100">List Price</th>
+                    <th width="100"> Quantity</th>
+                    <th width="100">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Where(p => p.orderid == i).ToList())
+                {
+                    <tr>
+                        <td>@product.orderid @product.product.product_name</td>
+                        <td>@product.price</td>
+                        <td>@product.quantity</td>
+                        <td>@product.total</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Grand Total</td>
+                    <td>@Model.Where(p => p.orderid == i).Sum(p => p.total)</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+}
+
+
+
+
+
